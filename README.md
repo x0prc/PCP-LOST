@@ -1,6 +1,35 @@
 # PCP-LOST
-Based on the paper titled : Cross-Cache Attacks for the Linux Kernel via PCP Massaging
+Based on the algorithms in paper titled : Cross-Cache Attacks for the Linux Kernel via PCP Massaging
 
 ## Citation
 `Migliorelli, C., Mambretti, A., Sorniotti, A., Zaccaria, V., & Kurmus, A. (2026). Cross-cache attacks for the linux kernel via pcp massaging. In Proceedings of the Network and Distributed System Security Symposium (NDSS). https://www.ndss-symposium.org/ndss-paper/cross-cache-attacks-for-the-linux-kernel-via-pcp-massaging/.`
 
+## Background
+<details> 
+<summary>Abstract</summary>
+Kernel memory allocators remain a critical attack
+surface, despite decades of research into memory corruption
+defenses. While recent mitigation strategies have diminished the
+effectiveness of conventional attack techniques, we show that
+robust cross-cache attacks are still feasible and pose a significant
+threat. In this paper, we introduce PCPLOST, a cross-cache
+memory massaging technique that bypasses mainline mitigations
+by carefully using side channels to infer the kernel allocator’s
+internal state. We demonstrate that vulnerabilities such as outof-bounds (OOB) — and, via pivoting, use-after-free (UAF) and
+double-free (DF) — can be exploited reliably through a crosscache attack, across all generic caches, even in the presence of
+noise. We validate the generality and robustness of our approach
+by exploiting 6 publicly disclosed CVEs by using PCPLOST,
+and discuss possible mitigations. The significant reliability (over
+90% in most cases) of our approach in obtaining a cross-cache
+layout suggests that current mitigation strategies fail to offer
+comprehensive protection against such attacks within the Linux
+kernel.
+</details>
+
+## Problem Statement
+The NDSS 2026 paper "Cross-Cache Attacks for the Linux Kernel via PCP Massaging" highlights that existing Linux defenses fail to adequately prevent cross-cache memory attacks due to overlooked vulnerabilities in Per-CPU Page (PCP) lists. The research introduces PCPLOST, a technique that leverages PCP list behavior to bypass current mitigations like SLAB_VIRTUAL with over 90% success, enabling reliable cross-cache object allocation. 
+
+
+## Solution
+
+## Diagram
