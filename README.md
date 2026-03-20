@@ -1,6 +1,9 @@
 # PCP-LOST
 Based on the algorithms in paper titled : Cross-Cache Attacks for the Linux Kernel via PCP Massaging
 
+> [!WARNING]
+> This project is a Proof of Concept and it aims to demonstrate the primitive (reliable cross-cache page reuse via PCP manipulation), not a full exploit chain.
+
 ## Citation
 `Migliorelli, C., Mambretti, A., Sorniotti, A., Zaccaria, V., & Kurmus, A. (2026). Cross-cache attacks for the linux kernel via pcp massaging. In Proceedings of the Network and Distributed System Security Symposium (NDSS). https://www.ndss-symposium.org/ndss-paper/cross-cache-attacks-for-the-linux-kernel-via-pcp-massaging/.`
 
@@ -26,10 +29,24 @@ comprehensive protection against such attacks within the Linux
 kernel.
 </details>
 
-## Problem Statement
+## Problem Statement (From the Paper)
 The NDSS 2026 paper "Cross-Cache Attacks for the Linux Kernel via PCP Massaging" highlights that existing Linux defenses fail to adequately prevent cross-cache memory attacks due to overlooked vulnerabilities in Per-CPU Page (PCP) lists. The research introduces PCPLOST, a technique that leverages PCP list behavior to bypass current mitigations like SLAB_VIRTUAL with over 90% success, enabling reliable cross-cache object allocation. 
 
 
 ## Solution
+<details>
+<summary>Core Idea</summary>
+PCP-LOST introduces a deterministic page-steering primitive by exploiting the behavior of Per-CPU Pagesets (PCP) in the Linux page allocator. The solution is based on three key insights:
+  
+- PCP as a controllable staging buffer
+    - By carefully controlling allocation/free patterns, an attacker can shape the contents and ordering of the PCP freelist.
+- Side-channel inference of allocator state
+    - This provides a side-channel oracle to infer whether PCP is being used.
+- Cross-cache page reuse via controlled draining/refilling
+    - By combining PCP manipulation with allocator state inference, the attacker can insert controlled pages into PCP, evict unrelated pages etc.
+</details>
+
+## Phases
+
 
 ## Diagram
