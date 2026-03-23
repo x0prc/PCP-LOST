@@ -79,7 +79,29 @@ static long pcp_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
     return 0;
 }
 
+static const struct file_operations fops = {
+  .owner = THIS_MODULE,
+  .unlocked_ioctl = pcp_ioctl,
+};
 
+// misc device keeps interface minimal (no custom char driver boilerplate)
+static struct miscdevice dev = {
+  .minor = MISC_DYNAMIC_MINOR,
+  .name = "pcp_probe",
+  .fops = &fops,
+};
 
+static int __init init_mod(void) {
+  return misc_register(&dev);
+}
+
+static void __exit exit_mod(void) {
+  misc_deregister(&dev);
+}
+
+module_init(init_mod);
+module_exit(exit_mod);
+
+MODULE_LICENSE("GPL");
 
 
