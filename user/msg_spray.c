@@ -25,4 +25,12 @@ int spray_msgs(int n)
     return q;
 }
 
+void free_msgs(int q, int n){
 
+  struct msg m;
+
+  // freeing returns objects -> underlying pages become candidates for reuse.
+  for (int i = 0; i < n; i++){
+    msgrcv(q, &m, sizeof(m.mtext), 0, 0);
+  }
+}
