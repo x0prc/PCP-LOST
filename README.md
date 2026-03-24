@@ -47,6 +47,16 @@ PCP-LOST introduces a deterministic page-steering primitive by exploiting the be
 </details>
 
 ## Phases
+<details>
+<summary>Birdseye View</summary>
+- Probe and drain the vulnerable cache
+- Trigger rmqueue_bulk() to refill the relevant PCP list from free_area
+- Spray/fill vulnerable-side pages, placing the vulnerable object at the desired edge
+- Probe and drain the target cache
+- Trigger target-side allocation from the contiguous buddy page
+- Fill the target slab with target objects
+- Trigger the OOB/corruption primitive
+</details>
 
 
 ## Diagram
