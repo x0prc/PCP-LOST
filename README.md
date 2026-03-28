@@ -62,3 +62,44 @@ PCP-LOST introduces a deterministic page-steering primitive by exploiting the be
 
 
 ## Diagram
+```mermaid
+flowchart TB
+
+%% Top layer
+A[Build + Load Module] --> B[Start User Program]
+
+%% Split into two parallel tracks
+B --> C1[Allocate Pages PFNs1]
+B --> C2[Timing Oracle]
+
+%% PCP preparation
+C1 --> D[Free → Fill PCP]
+C2 --> E[Classify Alloc Timing]
+
+%% Grooming loop (center block)
+D --> F
+E --> F
+
+subgraph PCP_Grooming["PCP Grooming"]
+    direction TB
+    F[Alloc + Measure] --> G{PCP Stable?}
+    G -- No --> F
+end
+
+G -- Yes --> H[PCP Ready]
+
+%% Cross-cache phase (horizontal expansion)
+H --> I[Cross-Cache Trigger msg_msg]
+I --> J[Reallocate Pages PFNs2]
+
+%% Measurement block (vertical)
+J --> K[Compare PFNs]
+K --> L[Compute Overlap]
+
+%% Loop + output (horizontal + vertical mix)
+L --> M{More Trials?}
+M -- Yes --> C1
+M -- No --> N[Analyze + Plot]
+
+N --> O[Outcome: Improved Cross-Cache Reuse]
+```
