@@ -103,3 +103,25 @@ M -- No --> N[Analyze + Plot]
 
 N --> O[Outcome: Improved Cross-Cache Reuse]
 ```
+## Usage
+### 1. Build
+
+```bash
+./scripts/build.sh
+```
+
+### 2. Run
+```bash
+./scripts/run.sh
+```
+
+### 3. Analyze Results
+```bash
+cd artifacts
+python3 analyze.py
+```
+
+### 4. Plot Results
+```bash
+python3 plot.py
+```
